@@ -1,17 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
-  const hello = trpc.useQuery([
-    "user.getUser",
-    "81a6ced0-9da1-4394-b116-572091a8c544",
-  ]);
-
-  console.log(hello.data);
-
-  if (hello.isLoading) return <p>Loading...</p>;
-
   return (
     <div>
       <Head>
@@ -20,7 +10,6 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <h1>Hello, World !</h1>
-      <p>{hello.data?.name}</p>
     </div>
   );
 };

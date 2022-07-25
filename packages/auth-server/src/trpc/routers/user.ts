@@ -4,6 +4,7 @@ import { prisma } from "../../utils/prisma-client";
 import argon2 from "argon2";
 import { twilio } from "../../utils/twilio-client";
 import { encode } from "../../jwt";
+import { TRPCError } from "@trpc/server";
 
 export const userRouter = createRouter()
   .query("getUser", {
@@ -19,7 +20,7 @@ export const userRouter = createRouter()
   .mutation("createUser", {
     input: z.object({
       name: z.string().min(5),
-      phone: z.string().length(10),
+      phone: z.string().min(10),
       password: z.string().min(8),
     }),
     async resolve(req) {
@@ -29,22 +30,42 @@ export const userRouter = createRouter()
         .findFirst({ where: { phone } })
         .finally(() => prisma.$disconnect);
 
-      if (user) return { errors: "Phone is already registered" };
+      if (user)
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Le numéro de téléphone est déjà enregistré.",
+        });
 
       const hashedPassword = await argon2.hash(password);
 
-      return await prisma.user
-        .create({ data: { phone, name, password: hashedPassword } })
+      const newUser = await prisma.user
+        .create({
+          data: { phone, name, password: hashedPassword },
+          select: {
+            id: true,
+            phone: true,
+            indicatif: true,
+          },
+        })
         .finally(() => prisma.$disconnect);
+
+      return {
+        id: null,
+        result: {
+          type: "data",
+          data: newUser,
+        },
+      };
     },
   })
   .mutation("sendVerification", {
     input: z.object({
       phone: z.string().length(10),
       indicatif: z.string(),
+      id: z.string(),
     }),
-    async resolve(req) {
-      const { phone, indicatif } = req.input;
+    async resolve({ input }) {
+      const { phone, indicatif } = input;
 
       return twilio.verifications
         .create({
