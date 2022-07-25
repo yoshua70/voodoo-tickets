@@ -1,0 +1,14 @@
+{
+  "packageManager": "yarn@3.2.2",
+  "name": "voodoo-tickets",
+  "scripts": {
+    "start": "concurrently \"wsrun --parallel start\""
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "concurrently": "^7.3.0",
+    "wsrun": "^5.2.4"
+  }
+}
