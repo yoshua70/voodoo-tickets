@@ -8,7 +8,7 @@ export interface JWTEncodeParams {
 
 export interface JWTDecodeParams {
   token: string;
-  secret: string;
+  type: "access" | "refresh";
 }
 
 export interface GetTokenParams {

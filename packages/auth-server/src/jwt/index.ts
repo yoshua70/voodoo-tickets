@@ -1,4 +1,5 @@
 import { JwtPayload, sign, verify } from "jsonwebtoken";
+import { customConfig } from "../config/default";
 import {
   JWTDecodeParams,
   JWTEncodeParams,
@@ -13,15 +14,18 @@ import {
 export const encode = async (params: JWTEncodeParams) => {
   const { userId, expiresIn, type } = params;
 
-  const secret =
+  const privateKey =
     type === "access"
-      ? process.env.ACCESS_TOKEN_SECRET
-      : process.env.REFRESH_TOKEN_SECRET;
+      ? Buffer.from(customConfig["accessTokenPrivateKey"], "base64").toString(
+          "ascii"
+        )
+      : Buffer.from(customConfig["refreshTokenPrivateKey"], "base64").toString(
+          "ascii"
+        );
 
-  if (!secret) return null;
-
-  return sign({ userId }, secret, {
+  return sign({ userId }, privateKey, {
     expiresIn,
+    algorithm: "RS256",
   });
 };
 
@@ -30,11 +34,20 @@ export const encode = async (params: JWTEncodeParams) => {
  * and refresh tokens may use different encoding secret.
  */
 export const decode = async (params: JWTDecodeParams) => {
-  const { token, secret } = params;
+  const { token, type } = params;
 
   if (!token) return null;
 
-  return verify(token, secret) as JwtPayload;
+  const publicKey =
+    type === "access"
+      ? Buffer.from(customConfig["accessTokenPublicKey"], "base64").toString(
+          "ascii"
+        )
+      : Buffer.from(customConfig["refreshTokenPublicKey"], "base64").toString(
+          "ascii"
+        );
+
+  return verify(token, publicKey) as JwtPayload;
 };
 
 /**

@@ -44,7 +44,7 @@ export const userRouter = createRouter()
   .mutation("login", {
     input: loginUserInputSchema,
     async resolve({ ctx, input }) {
-      let user = await findUser({ where: { phone: input.phone } });
+      const user = await findUser({ where: { phone: input.phone } });
 
       if (!user || (await argon2.verify(user.password, input.password)))
         throw new TRPCError({
@@ -83,7 +83,7 @@ export const userRouter = createRouter()
 
       const payload = await decode({
         token: refreshToken,
-        secret: process.env.REFRESH_TOKEN_SECRET!,
+        type: "refresh",
       });
 
       if (!payload)

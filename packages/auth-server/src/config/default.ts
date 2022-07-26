@@ -9,6 +9,10 @@ interface CustomConfig {
 
   accessTokenExpiresIn: number;
   refreshTokenExpiresIn: number;
+
+  databaseUrl: string;
+  twilioAuthToken: string;
+  twilioAccountSid: string;
 }
 
 export const customConfig: CustomConfig = {
@@ -18,4 +22,7 @@ export const customConfig: CustomConfig = {
   accessTokenPublicKey: process.env.ACCESS_TOKEN_PUBLIC_KEY as string,
   refreshTokenPrivateKey: process.env.REFRESH_TOKEN_PRIVATE_KEY as string,
   refreshTokenPublicKey: process.env.REFRESH_TOKEN_PUBLIC_KEY as string,
+  databaseUrl: process.env.DATABASE_URL as string,
+  twilioAuthToken: process.env.TWILIO_AUTH_TOKEN as string,
+  twilioAccountSid: process.env.TWILIO_ACCOUNT_SID as string,
 };

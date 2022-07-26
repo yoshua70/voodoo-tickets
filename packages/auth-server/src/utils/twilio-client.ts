@@ -1,8 +1,8 @@
-import "dotenv/config";
 import Twilio from "twilio";
+import { customConfig } from "../config/default";
 
-const accountSid = process.env.TWILIO_ACCOUNT_SID;
-const authToken = process.env.TWILIO_AUTH_TOKEN;
+const accountSid = customConfig.twilioAccountSid;
+const authToken = customConfig.twilioAuthToken;
 
 const client = Twilio(accountSid!, authToken!);
 
