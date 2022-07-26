@@ -72,6 +72,16 @@ export const userRouter = createRouter()
       };
     },
   })
+  .mutation("logout", {
+    async resolve({ ctx }) {
+      ctx.res.cookie("voodoo_access_token", null, {
+        httpOnly: true,
+      });
+      ctx.res.cookie("voodoo_refresh_token", null, {
+        httpOnly: true,
+      });
+    },
+  })
   .mutation("refreshAccessToken", {
     async resolve({ ctx }) {
       const refreshToken = ctx.req.cookies?.voodoo_refresh_token as string;
@@ -118,3 +128,4 @@ export const userRouter = createRouter()
       };
     },
   });
+  
