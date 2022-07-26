@@ -47,7 +47,7 @@ export const userRouter = createRouter()
     async resolve({ ctx, input }) {
       const user = await findUser({ where: { phone: input.phone } });
 
-      if (!user || (await argon2.verify(user.password, input.password)))
+      if (!user || !(await argon2.verify(user.password, input.password)))
         throw new TRPCError({
           code: "BAD_REQUEST",
           message: "Identifiants invalides.",
