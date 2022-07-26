@@ -11,12 +11,13 @@ import argon2 from "argon2";
 import { loginUserInputSchema } from "../../schemas/LoginUserInput";
 import { sendAccessToken, sendTokens } from "../../utils/send-token";
 import { decode, encode } from "../../jwt";
+import { User } from "@prisma/client";
 
 export const userRouter = createRouter()
   .mutation("register", {
     input: createUserInputSchema,
     async resolve({ ctx, input }) {
-      let user = await findUser({ where: { phone: input.phone } });
+      let user: User = await findUser({ where: { phone: input.phone } });
 
       if (user)
         throw new TRPCError({
