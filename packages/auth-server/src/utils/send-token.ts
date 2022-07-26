@@ -1,19 +1,38 @@
-import { encode } from "../jwt";
-import { Context } from "../trpc/context"
+import { Context } from "../trpc/context";
 
 interface SendTokensParams {
-  ctx: Context,
-  userId: string;
+  ctx: Context;
+  accessToken?: string | null;
+  refreshToken?: string | null;
 }
 
-export const sendTokens = async ({ctx, userId}: SendTokensParams) => {
-  const accessToken = await encode({type: "access", userId, expiresIn: "15m"})
-  const refreshToken = await encode({type: "refresh", userId, expiresIn: "7d"})
+export const sendTokens = async ({
+  ctx,
+  accessToken,
+  refreshToken,
+}: SendTokensParams) => {
+  ctx.res.cookie("voodoo_access_token", accessToken, {
+    httpOnly: true,
+  });
+  ctx.res.cookie("voodoo_refresh_token", refreshToken, {
+    httpOnly: true,
+  });
+};
 
-  ctx.res.cookie("voodoo-access-token", accessToken, {
+export const sendAccessToken = async ({
+  ctx,
+  accessToken,
+}: SendTokensParams) => {
+  ctx.res.cookie("voodoo_access_token", accessToken, {
     httpOnly: true,
   });
-  ctx.res.cookie("voodoo-refresh-token", refreshToken, {
+};
+
+export const sendRefreshToken = async ({
+  ctx,
+  refreshToken,
+}: SendTokensParams) => {
+  ctx.res.cookie("voodoo_refresh_token", refreshToken, {
     httpOnly: true,
   });
-}
+};
