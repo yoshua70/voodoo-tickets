@@ -33,11 +33,19 @@ export const userRouter = createRouter()
         phone: input.phone,
       });
 
+      const { access_token, refresh_token } = await generateTokens(user.id);
+
+      sendTokens({
+        ctx,
+        accessToken: access_token,
+        refreshToken: refresh_token,
+      });
+
       return {
         id: null,
         result: {
           type: "data",
-          data: user,
+          data: { user, access_token },
         },
       };
     },
