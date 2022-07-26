@@ -1,4 +1,4 @@
-import { sign, verify } from "jsonwebtoken";
+import { JwtPayload, sign, verify } from "jsonwebtoken";
 import {
   JWTDecodeParams,
   JWTEncodeParams,
@@ -34,7 +34,7 @@ export const decode = async (params: JWTDecodeParams) => {
 
   if (!token) return null;
 
-  return verify(token, secret);
+  return verify(token, secret) as JwtPayload;
 };
 
 /**
@@ -42,7 +42,9 @@ export const decode = async (params: JWTDecodeParams) => {
  * Looks for the token inside of the cookie or in the
  * `Authorization` headers.
  */
-export const getToken = async (params: GetTokenParams): Promise<GetTokenReturn> => {
+export const getToken = async (
+  params: GetTokenParams
+): Promise<GetTokenReturn> => {
   const { req, cookieName } = params;
 
   if (!req) throw new Error("Must pass `req` to JWT getToken()");
