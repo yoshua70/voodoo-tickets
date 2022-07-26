@@ -13,7 +13,6 @@ export interface JWTDecodeParams {
 
 export interface GetTokenParams {
   req: Request;
-  cookieName: string;
 }
 
 export interface GetTokenReturn {

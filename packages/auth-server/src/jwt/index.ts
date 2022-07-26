@@ -58,7 +58,7 @@ export const decode = async (params: JWTDecodeParams) => {
 export const getToken = async (
   params: GetTokenParams
 ): Promise<GetTokenReturn> => {
-  const { req, cookieName } = params;
+  const { req } = params;
 
   if (!req) throw new Error("Must pass `req` to JWT getToken()");
 
@@ -71,7 +71,7 @@ export const getToken = async (
     accessToken = authorization.split(" ")[1];
   }
 
-  refreshToken = req.cookies[cookieName];
+  refreshToken = req.cookies["voodoo-refresh-token"];
 
   return { accessToken: accessToken, refreshToken: refreshToken };
 };
