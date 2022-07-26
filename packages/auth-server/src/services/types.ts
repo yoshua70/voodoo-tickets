@@ -8,3 +8,7 @@ export interface FindUserParams {
 export interface UpdateUserParams extends FindUserParams {
   data: Prisma.UserUpdateInput;
 }
+
+export interface DeleteUserParams {
+  where: Partial<Prisma.UserCreateInput>;
+}
