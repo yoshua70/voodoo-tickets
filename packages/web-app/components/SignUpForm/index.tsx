@@ -2,12 +2,14 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserInput, UserInputSchema } from "./UserInputSchema";
 import { trpc } from "../../utils/trpc";
-import { VerifyPhoneForm } from "./VerifyPhoneForm";
-import { useState } from "react";
-import { TRPCResponse } from "@trpc/server/rpc";
+import { useRouter } from "next/router";
+import { useCookies } from "react-cookie";
 
 const SignUpForm = () => {
-  const [userPhone, setUserPhone] = useState({ phone: "", indicatif: "" });
+  const [tokensCookies, setTokensCookies] = useCookies([
+    "voodoo_access_token",
+    "voodoo_refresh_token",
+  ]);
 
   const {
     register,
@@ -17,19 +19,22 @@ const SignUpForm = () => {
     resolver: zodResolver(UserInputSchema),
   });
 
-  const verifyUserMutation = trpc.useMutation(["user.sendVerification"]);
-  const createUserMutation = trpc.useMutation(["user.createUser"], {
-    onSuccess: (data) => {
-      verifyUserMutation.mutate(data.result.data);
+  const router = useRouter();
+
+  const createUserMutation = trpc.useMutation(["user.register"], {
+    onSuccess: ({ result }) => {
+      setTokensCookies(
+        "voodoo_access_token",
+        JSON.stringify(result.data.access_token)
+      );
+      setTokensCookies(
+        "voodoo_refresh_token",
+        JSON.stringify(result.data.refresh_token)
+      );
     },
   });
 
-  const onSubmit = async (data: UserInput) => {
-    setUserPhone({ phone: data.phone, indicatif: data.indicatif });
-    createUserMutation.mutate(data);
-  };
-
-  console.log(createUserMutation.data);
+  const onSubmit = async (data: UserInput) => createUserMutation.mutate(data);
 
   if (createUserMutation.isLoading)
     return (
@@ -38,13 +43,7 @@ const SignUpForm = () => {
       </div>
     );
 
-  if (createUserMutation.isSuccess)
-    return (
-      <VerifyPhoneForm
-        phone={userPhone.phone}
-        indicatif={userPhone.indicatif}
-      />
-    );
+  if (createUserMutation.isSuccess) router.push("/dashboard");
 
   return (
     <form
