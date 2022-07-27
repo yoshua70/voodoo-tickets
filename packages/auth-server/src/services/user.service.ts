@@ -11,6 +11,9 @@ export const createUser = async (input: Prisma.UserCreateInput) => {
       id: true,
       name: true,
       phone: true,
+      verified: true,
+      diallingCode: true,
+      createdAt: true,
     },
   })) as User;
 };
