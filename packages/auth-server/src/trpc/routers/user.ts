@@ -35,17 +35,11 @@ export const userRouter = createRouter()
 
       const { access_token, refresh_token } = await generateTokens(user.id);
 
-      sendTokens({
-        ctx,
-        accessToken: access_token,
-        refreshToken: refresh_token,
-      });
-
       return {
         id: null,
         result: {
           type: "data",
-          data: { user, access_token },
+          data: { user, access_token, refresh_token },
         },
       };
     },

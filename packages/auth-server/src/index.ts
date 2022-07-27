@@ -14,8 +14,8 @@ const main = async () => {
   const app = express();
 
   app.use(cors);
-
   app.use(cookieParser());
+
   app.use(
     "/trpc",
     trpcExpress.createExpressMiddleware({ router: appRouter, createContext })
