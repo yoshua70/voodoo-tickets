@@ -68,7 +68,7 @@ export const userRouter = createRouter()
         id: null,
         result: {
           type: "data",
-          data: access_token,
+          data: { user, access_token, refresh_token },
           status: "success",
         },
       };

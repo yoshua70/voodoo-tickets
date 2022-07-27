@@ -11,6 +11,16 @@ export const UserInputSchema = z.object({
 
 export type UserInput = z.infer<typeof UserInputSchema>;
 
+export const UserLoginSchema = z.object({
+  phone: z.string().length(10, {
+    message: "Le numéro de téléphone doit comporter dix chiffres.",
+  }),
+  password: z.string().min(8, { message: "Entrez un mot de passe plus long." }),
+  indicatif: z.string().min(1),
+});
+
+export type UserLogin = z.infer<typeof UserLoginSchema>;
+
 export const PhoneVerificationInputSchema = z.object({
   code: z.string().length(6, {
     message: "Entrez un code valide.",

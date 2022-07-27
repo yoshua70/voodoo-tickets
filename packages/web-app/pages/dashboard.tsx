@@ -6,19 +6,25 @@ import {
 import { useCookies } from "react-cookie";
 import { Layout } from "../components/Layout";
 import { parseCookie } from "../utils/parse-cookie";
+import { useRouter } from "next/router";
 
 const Dashboard: NextPage = ({
-  cookie,
+  access_token,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [tokensCookies, setTokensCookies, removeTokenscookies] = useCookies([
     "voodoo_access_token",
     "voodoo_refresh_token",
   ]);
 
+  const router = useRouter();
+
   const signOut = () => {
     removeTokenscookies("voodoo_access_token");
     removeTokenscookies("voodoo_refresh_token");
+
+    router.push("/sign-in");
   };
+
   return (
     <Layout title="Tableau de bord">
       <div className="flex justify-between p-4">
@@ -40,7 +46,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
   const cookie = parseCookie(req);
 
   if (!cookie.voodoo_access_token)
-    return { redirect: { destination: "/sign-up" }, props: {} };
+    return { redirect: { destination: "/sign-in" }, props: {} };
 
   return {
     props: { access_token: cookie.voodoo_access_token },
