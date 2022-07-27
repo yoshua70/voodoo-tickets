@@ -11,13 +11,13 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  name      String
-  phone     String   
-  indicatif String   @default("+225")
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt()
+  id           String   @id @default(uuid())
+  name         String
+  phone        String
+  diallingCode String   @default("+225")
+  password     String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt()
 
-  @@unique([phone, indicatif], name: "user_phone_number")
+  @@unique([phone, diallingCode], name: "user_phone_number")
 }

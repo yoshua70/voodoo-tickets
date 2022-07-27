@@ -6,7 +6,7 @@ export const UserInputSchema = z.object({
     message: "Le numéro de téléphone doit comporter dix chiffres.",
   }),
   password: z.string().min(8, { message: "Entrez un mot de passe plus long." }),
-  indicatif: z.string().min(1),
+  diallingCode: z.string().min(1),
 });
 
 export type UserInput = z.infer<typeof UserInputSchema>;
@@ -16,7 +16,7 @@ export const UserLoginSchema = z.object({
     message: "Le numéro de téléphone doit comporter dix chiffres.",
   }),
   password: z.string().min(8, { message: "Entrez un mot de passe plus long." }),
-  indicatif: z.string().min(1),
+  diallingCode: z.string().min(1),
 });
 
 export type UserLogin = z.infer<typeof UserLoginSchema>;

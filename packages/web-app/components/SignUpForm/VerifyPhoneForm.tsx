@@ -8,13 +8,10 @@ import {
 
 interface VerifyPhoneFormComponent {
   phone: string;
-  indicatif: string;
+  diallingCode: string;
 }
 
-export const VerifyPhoneForm = ({
-  phone,
-  indicatif,
-}: VerifyPhoneFormComponent) => {
+export const VerifyPhoneForm = ({ phone, diallingCode }: VerifyPhoneFormComponent) => {
   const {
     register,
     handleSubmit,
@@ -30,7 +27,7 @@ export const VerifyPhoneForm = ({
     verifyUserMutation.mutate({
       phone: phone,
       code: parseInt(data.code),
-      indicatif: indicatif,
+      diallingCode: diallingCode,
     });
   };
 

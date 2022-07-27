@@ -54,7 +54,10 @@ const SignInForm = () => {
       <div className="flex flex-col gap-2">
         <label htmlFor="name">Numéro de téléphone</label>
         <div className="flex justify-between gap-2">
-          <select className="bg-slate-300 rounded" {...register("indicatif")}>
+          <select
+            className="bg-slate-300 rounded"
+            {...register("diallingCode")}
+          >
             <option>+225</option>
           </select>
           <input
@@ -64,6 +67,7 @@ const SignInForm = () => {
           />
         </div>
         <p className="text-red-500">{errors.phone?.message}</p>
+        <p className="text-red-500">{errors.diallingCode?.message}</p>
       </div>
       <div className="flex flex-col gap-2">
         <label htmlFor="password">Mot de passe</label>
