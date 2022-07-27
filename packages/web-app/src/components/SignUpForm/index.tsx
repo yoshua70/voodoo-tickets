@@ -21,7 +21,7 @@ const SignUpForm = () => {
 
   const router = useRouter();
 
-  const createUserMutation = trpc.useMutation(["user.register"], {
+  const createUserMutation = trpc.useMutation(["auth.register"], {
     onSuccess: ({ result }) => {
       setTokensCookies(
         "voodoo_access_token",
