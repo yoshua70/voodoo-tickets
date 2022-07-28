@@ -4,13 +4,12 @@ import { AppRouter } from "auth-server/src/trpc/server";
 import { withTRPC } from "@trpc/next";
 import { CookiesProvider } from "react-cookie";
 
-
 const App: AppType = ({ Component, pageProps }) => {
   return (
     <CookiesProvider>
       <Component {...pageProps} />;
     </CookiesProvider>
-  )
+  );
 };
 
 export default withTRPC<AppRouter>({
