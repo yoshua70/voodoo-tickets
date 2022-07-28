@@ -3,7 +3,7 @@
   "name": "voodoo-tickets",
   "scripts": {
     "start": "concurrently \"wsrun --parallel start\"",
-    "build": "concurrently \"wsrun --parallel build\" && yarn prisma generate --schema=./packages/auth-server/prisma/schema.prisma"
+    "build": "concurrently \"wsrun --parallel build\""
   },
   "workspaces": [
     "packages/*"
