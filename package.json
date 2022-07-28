@@ -3,7 +3,7 @@
   "name": "voodoo-tickets",
   "scripts": {
     "start": "concurrently \"wsrun --parallel start\"",
-    "build": "concurrently \"wsrun --parallel build\""
+    "build": "concurrently \"wsrun --staged build\""
   },
   "workspaces": [
     "packages/*"
