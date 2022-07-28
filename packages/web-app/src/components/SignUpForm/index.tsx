@@ -47,7 +47,7 @@ const SignUpForm = () => {
 
   return (
     <form
-      className="flex flex-col bg-white drop-shadow-sm p-4 text-slate-800 rounded w-sm gap-2 max-w"
+      className="flex flex-col bg-white drop-shadow-sm p-4 text-slate-800 rounded gap-2 max-w-sm"
       onSubmit={handleSubmit((data) => onSubmit(data))}
     >
       <div className="flex flex-col">
