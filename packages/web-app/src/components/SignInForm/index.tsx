@@ -21,7 +21,7 @@ const SignInForm = () => {
 
   const router = useRouter();
 
-  const loginUserMutation = trpc.useMutation(["auth.login"], {
+  const loginUserMutation = trpc.useMutation(["apiAuth.auth.login"], {
     onSuccess: ({ result }) => {
       setTokensCookies(
         "voodoo_access_token",

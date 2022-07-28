@@ -9,10 +9,7 @@ interface LoginControllerParams {
   ctx: Context;
 }
 
-export const loginController = async ({
-  input,
-  ctx,
-}: LoginControllerParams) => {
+export const loginController = async ({ input }: LoginControllerParams) => {
   let user = await findUser({
     where: {
       phone: input.phone,

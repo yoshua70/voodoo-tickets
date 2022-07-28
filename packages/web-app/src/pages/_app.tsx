@@ -15,7 +15,7 @@ const App: AppType = ({ Component, pageProps }) => {
 
 export default withTRPC<AppRouter>({
   config({ ctx }) {
-    const url = "http://localhost:4000/trpc";
+    const url = "http://localhost:8080/trpc";
 
     return {
       url,

@@ -1,6 +1,6 @@
 import express from "express";
 import * as trpcExpress from "@trpc/server/adapters/express";
-import { appRouter } from "./trpc/server";
+import { appAuthRouter } from "./trpc/server";
 import { createContext } from "./trpc/context";
 import cookieParser from "cookie-parser";
 import Cors from "cors";
@@ -8,7 +8,7 @@ import Cors from "cors";
 const main = async () => {
   const cors = Cors({
     credentials: true,
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", "http://localhost:8080"],
   });
 
   const app = express();
@@ -18,7 +18,10 @@ const main = async () => {
 
   app.use(
     "/trpc",
-    trpcExpress.createExpressMiddleware({ router: appRouter, createContext })
+    trpcExpress.createExpressMiddleware({
+      router: appAuthRouter,
+      createContext,
+    })
   );
 
   app.listen(4000, () => {
