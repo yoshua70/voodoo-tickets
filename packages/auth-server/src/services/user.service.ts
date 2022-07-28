@@ -1,7 +1,7 @@
 import { Prisma, User } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 import { encode } from "../jwt";
-import { prisma } from "../utils/prisma-client";
+import prisma from "../utils/prisma-client";
 import { DeleteUserParams, FindUserParams, UpdateUserParams } from "./types";
 
 export const createUser = async (input: Prisma.UserCreateInput) => {
