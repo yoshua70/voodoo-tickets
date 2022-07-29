@@ -4,7 +4,7 @@
   "description": "Authentication service using JWT and Expressjs.",
   "main": "src/index.ts",
   "scripts": {
-    "start": "nodemon --exec ts-node src/index.ts",
+    "dev": "nodemon --exec ts-node src/index.ts",
     "build": "yarn install && yarn prisma generate",
     "test": "cross-env NODE_ENV=test jest --testTimeout=10000",
     "test:unit": "ENV_FILE=./config/.env.test jest"
